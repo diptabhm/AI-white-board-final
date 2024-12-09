@@ -3,35 +3,197 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zoom Clone</title>
-    <link rel="stylesheet" href="public/style.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script
+    <title>Next Gen Video Conferencing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #dff9fb 0%, #a1eaf0 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .content {
+            text-align: center;
+        }
+        .heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1e272e;
+            animation: slideIn 2s ease-out;
+        }
+        .subheading {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #485460;
+            margin-top: 10px;
+            animation: fadeIn 3s ease-out;
+        }
+        .form-section {
+            margin-top: 30px;
+            animation: zoomIn 2.5s ease-out;
+        }
+        .form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form input:focus {
+            outline: none;
+            border-color: #22a6b3;
+            box-shadow: 0 0 5px rgba(34, 166, 179, 0.5);
+        }
+        .form button {
+            width: 100%;
+            padding: 15px;
+            background: #22a6b3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .form button:hover {
+            transform: scale(1.05);
+            background: #1e90a3;
+        }
+        .form-toggle {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .form-toggle a {
+            color: #22a6b3;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .form-toggle a:hover {
+            color: #1e90a3;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @media (max-width: 768px) {
+            .heading {
+                font-size: 2.5rem;
+            }
+            .subheading {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="Name-Page">
-        <div class="form">
-            <form class="known-form" action="/join">
-                <input type="text" placeholder="Enter your name" name="name" />
-                <button>Host a Meeting</button>
-                <p><a href="javascript:show()">Join Meeting?</a></p>
-            </form>
-
-            <form class="unknown-form" action="/joinold">
-                <input type="text" placeholder="Enter your name" name="name" />
-                <input type="text" placeholder="Enter Meeting Id" name="meeting_id" />
-                <button>Join Meeting</button>
-                <p>
-                    <a href="javascript:show()">Host Meeting?</a>
-                </p>
-            </form>
+    <div class="content">
+        <h1 class="heading">Next Gen Video Conferencing</h1>
+        <p class="subheading">Experience air writing and automated meeting summaries like never before.</p>
+        <div class="form-section">
+            <div id="join-form" class="form">
+                <form  action="/joinold">
+                    <input type="text" placeholder="Enter your name" name="name" required />
+                    <input type="text" placeholder="Enter Meeting ID" name="meeting_id" required />
+                    <button type="submit">Join Meeting</button>
+                </form>
+                <div class="form-toggle">
+                    <a href="javascript:show()" onclick="toggleForm('host')">Switch to Host a Meeting</a>
+                </div>
+            </div>
+            <div id="host-form" class="form" style="display: none;" >
+                <form action="/join">
+                    <input type="text" placeholder="Enter your name" name="host_name" required />
+                    <button type="submit">Host Meeting</button>
+                </form>
+                <div class="form-toggle">
+                    <a href="#" onclick="toggleForm('join')">Switch to Join Meeting</a>
+                </div>
+            </div>
         </div>
     </div>
+
     <script>
-        function show() {
-            $('form').animate({ height:"toggle",opacity:"toggle"},"slow")
+        function toggleForm(formType) {
+            const joinForm = document.getElementById('join-form');
+            const hostForm = document.getElementById('host-form');
+            if (formType === 'host') {
+                joinForm.style.display = 'none';
+                hostForm.style.display = 'block';
+            } else {
+                joinForm.style.display = 'block';
+                hostForm.style.display = 'none';
+            }
+        }
+
+        function handleJoin(event) {
+            event.preventDefault();
+            const name = document.querySelector('#join-form input[name="name"]').value;
+            const meetingId = document.querySelector('#join-form input[name="meeting_id"]').value;
+
+            if (!name || !meetingId) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Redirect to the video app with the meeting ID
+            window.location.href = `/video-app?name=${encodeURIComponent(name)}&meeting_id=${encodeURIComponent(meetingId)}`;
+        }
+
+        function handleHost(event) {
+            event.preventDefault();
+            const hostName = document.querySelector('#host-form input[name="host_name"]').value;
+
+            if (!hostName) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            // Redirect to host a meeting
+            window.location.href = `/host-app?host_name=${encodeURIComponent(hostName)}`;
         }
     </script>
 </body>
