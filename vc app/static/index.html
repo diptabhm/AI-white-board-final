@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #dff9fb 0%, #a1eaf0 100%);
@@ -24,15 +25,18 @@
             padding: 20px;
             overflow: hidden;
         }
+
         .content {
             text-align: center;
         }
+
         .heading {
             font-size: 3.5rem;
             font-weight: 700;
             color: #1e272e;
             animation: slideIn 2s ease-out;
         }
+
         .subheading {
             font-size: 1.5rem;
             font-weight: 400;
@@ -40,14 +44,17 @@
             margin-top: 10px;
             animation: fadeIn 3s ease-out;
         }
+
         .form-section {
             margin-top: 30px;
             animation: zoomIn 2.5s ease-out;
         }
+
         .form {
             max-width: 400px;
             margin: 0 auto;
         }
+
         .form input {
             width: 100%;
             padding: 15px;
@@ -56,11 +63,13 @@
             border-radius: 8px;
             font-size: 16px;
         }
+
         .form input:focus {
             outline: none;
             border-color: #22a6b3;
             box-shadow: 0 0 5px rgba(34, 166, 179, 0.5);
         }
+
         .form button {
             width: 100%;
             padding: 15px;
@@ -73,55 +82,67 @@
             cursor: pointer;
             transition: transform 0.3s ease, background 0.3s ease;
         }
+
         .form button:hover {
             transform: scale(1.05);
             background: #1e90a3;
         }
+
         .form-toggle {
             margin-top: 10px;
             font-size: 14px;
         }
+
         .form-toggle a {
             color: #22a6b3;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
+
         .form-toggle a:hover {
             color: #1e90a3;
         }
+
         @keyframes slideIn {
             from {
                 transform: translateX(-100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
+
         @keyframes zoomIn {
             from {
                 transform: scale(0.8);
                 opacity: 0;
             }
+
             to {
                 transform: scale(1);
                 opacity: 1;
             }
         }
+
         @media (max-width: 768px) {
             .heading {
                 font-size: 2.5rem;
             }
+
             .subheading {
                 font-size: 1.2rem;
             }
@@ -135,7 +156,7 @@
         <p class="subheading">Experience air writing and automated meeting summaries like never before.</p>
         <div class="form-section">
             <div id="join-form" class="form">
-                <form  action="/joinold">
+                <form action="/joinold">
                     <input type="text" placeholder="Enter your name" name="name" required />
                     <input type="text" placeholder="Enter Meeting ID" name="meeting_id" required />
                     <button type="submit">Join Meeting</button>
@@ -144,7 +165,7 @@
                     <a href="javascript:show()" onclick="toggleForm('host')">Switch to Host a Meeting</a>
                 </div>
             </div>
-            <div id="host-form" class="form" style="display: none;" >
+            <div id="host-form" class="form" style="display: none;">
                 <form action="/join">
                     <input type="text" placeholder="Enter your name" name="host_name" required />
                     <button type="submit">Host Meeting</button>

@@ -10,7 +10,9 @@ body {
 }
 
 #video-grids {
-    display: flex
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 a,
@@ -30,7 +32,6 @@ a:active {
     align-items: center;
     flex-wrap: wrap;
     overflow-y: auto;
-    background-color: yellow;
 }
 
 h1 {
@@ -70,6 +71,8 @@ video {
 .main_controls_block {
     flex-direction: row;
     display: flex;
+    gap: 15px;
+    /* Adds space between each button */
 }
 
 .main_controls {
@@ -78,17 +81,68 @@ video {
     background-color: #1C1E20;
     color: white;
     padding: 10px;
-    justify-content: space-between
+    justify-content: space-between;
+    height: 65px;
 }
 
 .main_controls_button {
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    padding: 3px 10px;
+    padding: 10px 20px;
     min-width: 80px;
     align-items: center;
     justify-content: center;
+    background-color: #3f4040;
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.main_controls_button:hover {
+    background-color: #5a5a5a;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Container for both buttons */
+.recording-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    /* Adds space between the buttons */
+}
+
+/* Style for Start Recording and Stop Recording buttons */
+.start-recording,
+.stop-recording {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    /* Optional: Adds rounded corners to buttons */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for hover effect */
+}
+
+/* Hover effect for buttons */
+.start-recording:hover,
+.stop-recording:hover {
+    background-color: #fff;
+    color: black;
+    transform: translateY(-2px);
+    /* Darker blue when hovered */
+}
+
+/* Optional: Focus effect for accessibility */
+.start-recording:focus,
+.stop-recording:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.6);
+    /* Adds a blue outline when focused */
 }
 
 .main_videos {
@@ -101,14 +155,44 @@ video {
 }
 
 .leave_red {
+    text-decoration: none;
+    /* Remove underline */
     color: white;
-    background-color: red;
-    border-radius: 5%;
+    /* Make text color white */
+    background-color: #aa3737;
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
 }
 
+.leave_red:hover {
+    background-color: #ff6666;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.leave_red a {
+    color: white;
+    /* Ensure the link text is white */
+    text-decoration: none;
+    /* Remove underline from link */
+}
+
+.leave_red a:hover {
+    color: white;
+    /* Keep text white on hover */
+    text-decoration: none;
+    /* Ensure no underline on hover */
+}
+
+/* Modern look for chat message input area */
 .main__message_container {
     padding: 20px 15px;
     display: flex;
+    background-color: #3a3b3c;
+    border-radius: 20px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
 }
 
 .main__message_container input {
@@ -116,17 +200,16 @@ video {
     background-color: transparent;
     color: white;
     border: none;
-    outline: none
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
 }
 
 .main__chat_window {
     flex-grow: 1;
     overflow-y: auto;
-}
-
-.main_controls_button:hover {
-    background-color: #686666;
-    border-radius: 25px;
+    padding: 20px;
 }
 
 .main_right_header {
@@ -135,58 +218,184 @@ video {
     font-size: 20px;
     padding: 10px;
     border-bottom: 2px solid #3d3d42;
+    background-color: #007bff;
+    /* Solid blue background for a modern look */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .message {
     color: white;
     list-style-type: none;
     border: 2px solid #3d3d42;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #444;
+    border-radius: 10px;
 }
 
 .main_right_header h6 {
-    animation: animate 20s linear infinite;
-    background-image: linear-gradient(to right, #f00, #ff0, #0ff, #0f0, #00f);
-    background-size: 1000%;
+    /* Removed the animation for simplicity */
+    background-color: #007bff;
+    /* Solid blue background */
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #resultModal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 500px;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: calc(100% - 65px);
     background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
+    z-index: 1050;
     display: none;
-    overflow-y: scroll;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px 0 0 8px;
+    padding: 20px;
 }
+
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.close {
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-#summaryOptions button {
-    margin: 10px;
-    padding: 10px;
-    cursor: pointer;
+    margin-bottom: 20px;
 }
 
+.modal-header h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.close {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #666;
+}
+
+#summaryOptions button {
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#summaryOptions button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#summaryOptions button:not(:last-child) {
+    margin-right: 20px;
+    /* Add padding between buttons */
+}
+
+#summaryOptions button#startRecording,
+#summaryOptions button#stopRecording {
+    background-color: #4d79ff;
+    /* Blue shade */
+}
 
 @keyframes animate {
     0% {
         background-position: 0% 100%;
     }
+
     50% {
         background-position: 100% 0%;
     }
+
     100% {
         background-position: 0% 100%;
+    }
+}
+
+/* MEDIA QUERIES FOR RESPONSIVENESS */
+
+/* Mobile devices */
+@media screen and (max-width: 768px) {
+    .mainclone {
+        flex-direction: column;
+    }
+
+    .main_left {
+        flex: 1;
+    }
+
+    .main_right {
+        flex: 1;
+        margin-top: 20px;
+    }
+
+    .video-grid {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .video-grid video {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .main_controls {
+        flex-direction: column;
+    }
+
+    .main_controls_button {
+        margin-bottom: 10px;
+        min-width: 100%;
+    }
+
+    .recording-buttons-container {
+        flex-direction: column;
+    }
+
+    .main_videos {
+        padding: 20px;
+    }
+
+    #resultModal {
+        width: 100%;
+        height: 50%;
+        border-radius: 0;
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 1024px) {
+
+    .main_left,
+    .main_right {
+        padding: 10px;
+    }
+
+    .video-grid {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .video-grid video {
+        max-width: 100%;
+    }
+
+    .main_controls_button {
+        min-width: 120px;
+    }
+
+    .main_videos {
+        padding: 30px;
     }
 }
