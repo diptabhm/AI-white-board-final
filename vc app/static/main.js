@@ -1,6 +1,6 @@
 // Establishes a connection to the socket.io server
 const socket = io("/");
-
+const { jsPDF } = window.jspdf;
 // DOM elements for the chat window, video grids, and chat input
 const main__chat__window = document.getElementById("main__chat_window");
 const videoGrids = document.getElementById("video-grids");
@@ -16,7 +16,57 @@ window.onload = () => {
         $("#getCodeModal").modal("show");
     });
 };
+// let isDragging = false;
+// let currentX;
+// let currentY;
+// let initialX;
+// let initialY;
+// let xOffset = 0;
+// let yOffset = 0;
+// let xPosition = 0;
+// let yPosition = 0;
 
+// const resultModal = document.getElementById("resultModal");
+
+// resultModal.addEventListener("mousedown", dragStart);
+// resultModal.addEventListener("mouseup", dragEnd);
+// resultModal.addEventListener("mousemove", drag);
+
+// function dragStart(e) {
+//     initialX = e.clientX - xOffset;
+//     initialY = e.clientY - yOffset;
+
+//     if (e.target === resultModal) {
+//         isDragging = true;
+//     }
+// }
+
+// function dragEnd(e) {
+//     initialX = currentX;
+//     initialY = currentY;
+
+//     isDragging = false;
+// }
+
+// function drag(e) {
+//     if (isDragging) {
+//         e.preventDefault();
+
+//         if (e.type === "mousemove") {
+//             currentX = e.clientX - initialX;
+//             currentY = e.clientY - initialY;
+
+//             xOffset = currentX;
+//             yOffset = currentY;
+
+//             setTranslate(currentX, currentY, resultModal);
+//         }
+//     }
+// }
+
+// function setTranslate(xPos, yPos, el) {
+//     el.style.transform = `translate(${xPos}px, ${yPos}px)`;
+// }
 // PeerJS configuration for WebRTC connections
 var peer = new Peer(undefined, {
     path: "/peerjs",
@@ -32,6 +82,7 @@ var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || nav
 // Sends a chat message when the "Enter" key is pressed
 sendmessage = (text) => {
     if (event.key === "Enter" && text.value != "") {
+      console.log(myname);
         socket.emit("messagesend", myname + ' : ' + text.value); // Sends the message to the server
         text.value = ""; // Clears the input box
         main__chat__window.scrollTop = main__chat__window.scrollHeight; // Scrolls to the bottom of the chat
@@ -232,7 +283,7 @@ const stopRecording = async () => {
         document.getElementById('loadingText').style.display = 'block';
       
     }
-  
+    
     // Function to close the modal
     
     showResultModal();
@@ -249,18 +300,101 @@ const stopRecording = async () => {
         
     }, 10000);
     document.getElementById('loadingText').textContent = 'Generating Summaries...';
- 
-    document.getElementById('transcriptBtn').addEventListener("click", ()=>{
-        console.log(transcript);
-        document.getElementById('loadingText').textContent = transcript;
-})
-document.getElementById('summaryBtn').addEventListener("click", ()=>{
-    document.getElementById('loadingText').textContent = summary;
-})
-document.getElementById('peopleWiseSummaryBtn').addEventListener("click", ()=>{
-    console.log(peopleWiseSummary);
-document.getElementById('loadingText').textContent = peopleWiseSummary;
-})
+ // Function to download content as PDF
+ function downloadAsPDF(content, fileName) {
+  const doc = new jsPDF();
+  const margin = 15; // Margin from the edges of the PDF
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const maxLineWidth = pageWidth - margin * 2; // Width available for text
+  const lineHeight = 7; // Height of each line (smaller for professional look)
+  let cursorY = margin; // Start at top margin
+
+  // Set font style and size
+  doc.setFont("Times", "normal");
+  doc.setFontSize(12); // Smaller, professional font size
+
+  // Split content into lines that fit within maxLineWidth
+  const lines = doc.splitTextToSize(content, maxLineWidth);
+
+  // Add lines to the PDF, moving the cursor down for each line
+  lines.forEach((line) => {
+      if (cursorY + lineHeight > pageHeight - margin) {
+          // Add a new page if the current page is full
+          doc.addPage();
+          cursorY = margin; // Reset Y position
+      }
+      doc.text(line, margin, cursorY);
+      cursorY += lineHeight; // Move to the next line
+  });
+
+  doc.save(fileName); // Download the PDF
+}
+
+document.getElementById('transcriptBtn').addEventListener("click", () => {
+  console.log(transcript);
+  document.getElementById('loadingText').textContent = transcript;
+
+  // Add download button for PDF
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = 'Download Transcript as PDF';
+  downloadBtn.style.display = 'block';
+  downloadBtn.style.backgroundColor = 'blue';
+  downloadBtn.style.color = 'white';
+  downloadBtn.style.marginTop = '1rem';
+  downloadBtn.style.padding = '0.5rem';
+  downloadBtn.style.borderRadius = '1rem';
+  downloadBtn.style.cursor = 'pointer';
+
+  downloadBtn.addEventListener('click', () => {
+      downloadAsPDF(transcript, 'transcript.pdf');
+  });
+
+  document.getElementById('loadingText').appendChild(downloadBtn);
+});
+
+document.getElementById('summaryBtn').addEventListener("click", () => {
+  document.getElementById('loadingText').textContent = summary;
+
+  // Add download button for PDF
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = 'Download Summary as PDF';
+  downloadBtn.style.display = 'block';
+  downloadBtn.style.backgroundColor = 'blue';
+  downloadBtn.style.color = 'white';
+  downloadBtn.style.marginTop = '1rem';
+  downloadBtn.style.padding = '0.5rem';
+  downloadBtn.style.borderRadius = '1rem';
+  downloadBtn.style.cursor = 'pointer';
+
+  downloadBtn.addEventListener('click', () => {
+      downloadAsPDF(summary, 'summary.pdf');
+  });
+
+  document.getElementById('loadingText').appendChild(downloadBtn);
+});
+
+document.getElementById('peopleWiseSummaryBtn').addEventListener("click", () => {
+  console.log(peopleWiseSummary);
+  document.getElementById('loadingText').textContent = peopleWiseSummary;
+
+  // Add download button for PDF
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = 'Download People-Wise Summary as PDF';
+  downloadBtn.style.display = 'block';
+  downloadBtn.style.backgroundColor = 'blue';
+  downloadBtn.style.color = 'white';
+  downloadBtn.style.marginTop = '1rem';
+  downloadBtn.style.padding = '0.5rem';
+  downloadBtn.style.borderRadius = '1rem';
+  downloadBtn.style.cursor = 'pointer';
+  downloadBtn.addEventListener('click', () => {
+      downloadAsPDF(peopleWiseSummary, 'people_wise_summary.pdf');
+  });
+
+  document.getElementById('loadingText').appendChild(downloadBtn);
+});
+
   if (mediaRecorder) {
     mediaRecorder.stop();
     console.log("[Recording] Stop method initiated");

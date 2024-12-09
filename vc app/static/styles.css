@@ -243,31 +243,91 @@ video {
 }
 
 #resultModal {
+    margin-top: 5rem;
     position: fixed;
-    top: 0;
-    right: 0;
-    width: 30%;
-    height: calc(100% - 65px);
-    background-color: #fff;
+    top: 20%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    width: 45%;
+    height: 50vh;
+    background-color: rgb(100, 203, 248);
     z-index: 1050;
     display: none;
-    overflow-y: auto;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px 0 0 8px;
-    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow-y: scroll;
+    animation: fadeIn 0.5s ease-in-out;
 }
+
+/* Scrollbar Styles */
+#resultModal::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgb(100, 203, 248);
+    border-radius: 8px;
+}
+
+#resultModal::-webkit-scrollbar-thumb {
+    background-color: #0d47a1;
+    border-radius: 8px;
+}
+
+#resultModal::-webkit-scrollbar-thumb:hover {
+    background-color: #1565c0;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+#loadingText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.5;
+    padding: 20px;
+    }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+ 
 }
-
+.modal-content{
+    width: 100%;
+}
 .modal-header h5 {
     font-size: 1.25rem;
     font-weight: bold;
 }
+
+.download-btn {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #0d47a1;
+    background-color: #e3f2fd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+    .download-btn:hover {
+    background-color: #bbdefb;
+    }
+    .download-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.4);
+    }
 
 .close {
     font-size: 1.5rem;
