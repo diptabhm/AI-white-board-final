@@ -223,6 +223,44 @@ const startRecording = async () => {
 
 // Stops the audio recording and send to openai api. Handle reponse received
 const stopRecording = async () => {
+
+    let transcript =""; let summary = "";
+    let peopleWiseSummary = "";
+    function showResultModal() {
+       
+        document.getElementById('resultModal').style.display = 'block';
+        document.getElementById('loadingText').style.display = 'block';
+      
+    }
+  
+    // Function to close the modal
+    
+    showResultModal();
+
+    setTimeout(() => {
+        // Assuming transcript, summary, and people-wise summary are fetched from some source
+        
+        // Hide loading text and show options
+       
+        document.getElementById('summaryOptions').style.display = 'block';
+        console.log(transcript);
+        // You can assign the fetched content to each button or handle them as needed
+        document.getElementById('loadingText').textContent = 'Processing Completed!!';
+        
+    }, 10000);
+    document.getElementById('loadingText').textContent = 'Generating Summaries...';
+ 
+    document.getElementById('transcriptBtn').addEventListener("click", ()=>{
+        console.log(transcript);
+        document.getElementById('loadingText').textContent = transcript;
+})
+document.getElementById('summaryBtn').addEventListener("click", ()=>{
+    document.getElementById('loadingText').textContent = summary;
+})
+document.getElementById('peopleWiseSummaryBtn').addEventListener("click", ()=>{
+    console.log(peopleWiseSummary);
+document.getElementById('loadingText').textContent = peopleWiseSummary;
+})
   if (mediaRecorder) {
     mediaRecorder.stop();
     console.log("[Recording] Stop method initiated");
@@ -243,7 +281,7 @@ const stopRecording = async () => {
         console.log("[Whisper API] Form data prepared for transcription");
 
         // OpenAI API key (IMPORTANT: NEVER hardcode API keys in production!)
-        const openaiApiKey = "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";
+        const openaiApiKey = "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";
 
         // Step 1: Transcribe the audio using Whisper API
         const transcriptionResponse = await fetch("https://api.openai.com/v1/audio/transcriptions", {
@@ -261,15 +299,16 @@ const stopRecording = async () => {
         // Get the transcription text
         const transcriptionResult = await transcriptionResponse.json();
         const transcriptionText = transcriptionResult.text;
+        transcript = transcriptionText;
         console.log("[Transcription] Raw transcript received", {
           transcriptLength: transcriptionText.length,
           wordCount: transcriptionText.split(/\s+/).length
         });
 
         // Step 2: Preprocess transcript to identify potential speakers
-        const processedTranscript = await preprocessTranscript(transcriptionText, openaiApiKey);
+        peopleWiseSummary = await preprocessTranscript(transcriptionText, openaiApiKey);
         console.log("[Preprocessing] Transcript processed for speaker identification", {
-          processedTranscriptLength: processedTranscript.length
+          processedTranscriptLength: peopleWiseSummary.length
         });
 
         // Step 3: Generate a summary using GPT-3.5 with speaker insights
@@ -286,16 +325,14 @@ const stopRecording = async () => {
                 role: "system",
                 content: `You are an expert meeting summarizer. Carefully analyze the preprocessed transcript 
                 and provide:
-                1. Distinct speakers identified
-                2. Key contributions of each speaker
-                3. Main discussion points
-                4. Decisions and action items
-                5. Overall meeting context`
+                1. Main discussion points
+                2. Decisions and action items
+                3. Overall meeting context`
               },
               {
                 role: "user",
                 content: `Preprocessed Meeting Transcript:
-${processedTranscript}
+${transcriptionText}
 
 Please provide a comprehensive summary with detailed speaker insights.`
               }
@@ -323,11 +360,12 @@ Please provide a comprehensive summary with detailed speaker insights.`
         console.log(transcriptionText);
         console.log("===== MEETING SUMMARY =====");
         console.log(meetingSummary);
-
+        transcript = transcriptionText;
+        summary = meetingSummary;
         // Optional: Return or display results
         return {
-          transcript: transcriptionText,
-          summary: meetingSummary
+          transcript,
+          summary
         };
 
       } catch (error) {
@@ -349,7 +387,7 @@ Please provide a comprehensive summary with detailed speaker insights.`
     console.warn("[Recording] No media recorder found");
   }
 };
-
+summary = summaryResponse.summary;
 // Helper function to preprocess and attempt speaker identification
 async function preprocessTranscript(transcript, apiKey) {
   console.log("[Speaker Identification] Starting preprocessing");
@@ -388,17 +426,21 @@ ${transcript}`
 
     const speakerDetectionResult = await speakerDetectionResponse.json();
     const processedTranscript = speakerDetectionResult.choices[0].message.content;
-
+    console.log(processedTranscript);
     console.log("[Speaker Identification] Preprocessing complete", {
       originalLength: transcript.length,
       processedLength: processedTranscript.length
     });
-
-    return processedTranscript;
+     peopleWiseSummary = processedTranscript;
+     console.log(peopleWiseSummary);
+    return peopleWiseSummary;
   } catch (error) {
     console.error("[Speaker Identification] Preprocessing error", {
       errorMessage: error.message
     });
     return transcript;
   }
+  
+
+
 }
