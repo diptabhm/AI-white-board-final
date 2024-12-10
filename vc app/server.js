@@ -37,7 +37,9 @@ app.get("/joinold", (req, res) => {
 });
 
 app.get("/join/:rooms", (req, res) => {
-    res.render("room", { roomid: req.params.rooms, Myname: req.query.name });
+    // Use either host_name or name, prioritizing host_name
+    const username = req.query.host_name || req.query.name;
+    res.render("room", { roomid: req.params.rooms, Myname: username  });
 });
 
 io.on("connection", (socket) => {
