@@ -148,6 +148,8 @@ video {
 .main_videos {
     flex-grow: 1;
     background-color: black;
+    /* background-color: white !important;
+    background: none !important; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -281,28 +283,32 @@ video {
         opacity: 0;
         transform: translate(-50%, -45%);
     }
+
     100% {
         opacity: 1;
         transform: translate(-50%, -50%);
     }
 }
+
 #loadingText {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: #333333;
     line-height: 1.5;
     padding: 20px;
-    }
+}
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
- 
+
 }
-.modal-content{
+
+.modal-content {
     width: 100%;
 }
+
 .modal-header h5 {
     font-size: 1.25rem;
     font-weight: bold;
@@ -320,14 +326,16 @@ video {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    }
-    .download-btn:hover {
+}
+
+.download-btn:hover {
     background-color: #bbdefb;
-    }
-    .download-btn:focus {
+}
+
+.download-btn:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.4);
-    }
+}
 
 .close {
     font-size: 1.5rem;
