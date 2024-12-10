@@ -1,73 +1,83 @@
 body {
-background-color: #f2f2f2;
-font-family: 'Montserrat', sans-serif;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-margin: 0;
+    background-color: #f2f2f2;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
+
 .Name-Page {
-width: 400px;
-text-align: center;
+    width: 400px;
+    text-align: center;
 }
+
 .heading {
-font-size: 24px;
-font-weight: 700;
-margin-bottom: 40px;
-animation: fadeIn 1s ease;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease;
 }
+
 @keyframes fadeIn {
-0% {
-opacity: 0;
-transform: translateY(-20px);
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-100% {
-opacity: 1;
-transform: translateY(0);
-}
-}
+
 .form {
-background-color: white;
-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-border-radius: 5px;
-padding: 40px;
-max-width: 300px;
-margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 40px;
+    max-width: 300px;
+    margin: 0 auto;
 }
+
 .form input {
-font-family: 'Montserrat', sans-serif;
-outline: none;
-background-color: #f2f2f2;
-width: 100%;
-border: none;
-margin-bottom: 20px;
-padding: 15px;
-box-sizing: border-box;
-font-size: 16px;
-border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    background-color: #f2f2f2;
+    width: 100%;
+    border: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 3px;
 }
+
 .form button {
-font-family: 'Montserrat', sans-serif;
-outline: none;
-background-color: #4CAF50;
-width: 100%;
-border: none;
-padding: 15px;
-color: white;
-font-size: 16px;
-cursor: pointer;
-border-radius: 3px;
-transition: background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    background-color: #4CAF50;
+    width: 100%;
+    border: none;
+    padding: 15px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
 }
+
 .form button:hover {
-background-color: #43A047;
+    background-color: #43A047;
 }
+
 .form p {
-font-size: 14px;
-margin: 20px 0;
-color: #666;
+    font-size: 14px;
+    margin: 20px 0;
+    color: #666;
 }
+
 .form .unknown-form {
-display: none;
+    display: none;
 }
