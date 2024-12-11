@@ -17,7 +17,7 @@ fetch('/api/config')
     .then((response) => response.json())
     .then((config) => {
         apiKey = config.apiKey; // Store the API key
-
+        alert("Api key found");
       
     })
     .catch((error) => console.error('Error fetching config:', error));
