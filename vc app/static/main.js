@@ -17,7 +17,6 @@ fetch('/api/config')
     .then((response) => response.json())
     .then((config) => {
         apiKey = config.apiKey; // Store the API key
-        console.log('API Key:', apiKey); // Use it here, or store it for later use
 
       
     })
