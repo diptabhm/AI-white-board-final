@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const app = express();
 const server = require("http").Server(app);
 const { v4: uuidv4 } = require("uuid");
@@ -13,6 +14,10 @@ const path = require("path");
 app.set("view engine", "ejs");
 app.use("/public", express.static(path.join(__dirname, "static")));
 app.use("/peerjs", peerServer);
+
+app.get('/api/config', (req, res) => {
+    res.json({ apiKey: process.env.openaiApikey });
+});
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "static", "index.html"));

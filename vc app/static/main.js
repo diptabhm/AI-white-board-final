@@ -10,6 +10,19 @@ let OtherUsername = ""; // Stores the username of the other user
 chat.hidden = true; // Initially hides the chat box
 myVideo.muted = true; // Mutes local video by default
 
+let apiKey;
+
+// Fetch the API Key from the server
+fetch('/api/config')
+    .then((response) => response.json())
+    .then((config) => {
+        apiKey = config.apiKey; // Store the API key
+        console.log('API Key:', apiKey); // Use it here, or store it for later use
+
+      
+    })
+    .catch((error) => console.error('Error fetching config:', error));
+
 // Shows a modal on page load using jQuery
 window.onload = () => {
     $(document).ready(function() {
@@ -415,8 +428,7 @@ document.getElementById('peopleWiseSummaryBtn').addEventListener("click", () => 
         console.log("[Whisper API] Form data prepared for transcription");
 
         // OpenAI API key (IMPORTANT: NEVER hardcode API keys in production!)
-        const openaiApiKey = "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";
-
+        const openaiApiKey = apiKey;
         // Step 1: Transcribe the audio using Whisper API
         const transcriptionResponse = await fetch("https://api.openai.com/v1/audio/transcriptions", {
           method: "POST",
