@@ -196,7 +196,7 @@ const cancel = () => {
 // Copies the room link to the clipboard
 const copy = async () => {
     const roomid = document.getElementById("roomid").innerText;
-    await navigator.clipboard.writeText("http://localhost:3030/join/" + roomid);
+    await navigator.clipboard.writeText("https://vc-backend-iwqn.onrender.com/join/" + roomid);
 };
 
 // Shows the invite modal
